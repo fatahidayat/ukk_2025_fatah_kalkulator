@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>JavaScript Calculator</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
+      integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <table id="calcu">
+      <tr>
+        <td colspan="3"><input type="text" id="result" /></td>
+        <td><input type="button" value="c" onclick="calculator.clear()" /></td>
+      </tr>
+      <tr>
+        <td><input type="button" value="7" onclick="calculator.display('7')" /></td>
+        <td><input type="button" value="8" onclick="calculator.display('8')" /></td>
+        <td><input type="button" value="9" onclick="calculator.display('9')" /></td>
+        <!-- Updated the division button to display ÷ -->
+        <td><input type="button" value="÷" onclick="calculator.display('/')" /></td>
+      </tr>
+      <tr>
+        <td><input type="button" value="4" onclick="calculator.display('4')" /></td>
+        <td><input type="button" value="5" onclick="calculator.display('5')" /></td>
+        <td><input type="button" value="6" onclick="calculator.display('6')" /></td>
+        <!-- Updated the multiplication button to display × -->
+        <td><input type="button" value="×" onclick="calculator.display('*')" /></td>
+      </tr>
+      <tr>
+        <td><input type="button" value="1" onclick="calculator.display('1')" /></td>
+        <td><input type="button" value="2" onclick="calculator.display('2')" /></td>
+        <td><input type="button" value="3" onclick="calculator.display('3')" /></td>
+        <td><input type="button" value="-" onclick="calculator.display('-')" /></td>
+      </tr>
+      <tr>
+        <td><input type="button" value="." onclick="calculator.display('.')" /></td>
+        <td><input type="button" value="0" onclick="calculator.display('0')" /></td>
+        <td><input type="button" value="=" onclick="calculator.solve()" /></td>
+        <td><input type="button" value="+" onclick="calculator.display('+')" /></td>
+      </tr>
+    </table>
+
+    <script>
+      class Calculator {
+        constructor() {
+          this.resultField = document.getElementById("result");
+          this.input = "";
+        }
+
+        // Display input on the screen
+        display(val) {
+          this.input += val;
+          this.resultField.value = this.input;
+        }
+
+        // Evaluate the expression
+        solve() {
+          try {
+            // Evaluate the expression and store the result
+            let result = math.evaluate(this.input);
+            this.resultField.value = result;
+            this.input = result.toString(); // store result for further calculation
+          } catch (error) {
+            this.resultField.value = "Error";
+          }
+        }
+
+        // Clear the display
+        clear() {
+          this.input = "";
+          this.resultField.value = "";
+        }
+
+        // Handle keydown events for numeric input
+        handleKeyPress(event) {
+          const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "."];
+          if (validKeys.includes(event.key)) {
+            this.display(event.key);
+          } else if (event.key === "Enter") {
+            this.solve();
+          }
+        }
+      }
+
+      // Instantiate a calculator object
+      const calculator = new Calculator();
+
+      // Event listener for keydown
+      document.addEventListener("keydown", function (event) {
+        calculator.handleKeyPress(event);
+      });
+    </script>
+  </body>
+</html>

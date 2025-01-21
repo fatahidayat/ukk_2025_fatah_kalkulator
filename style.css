@@ -1,0 +1,148 @@
+/* General styles */
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #fefefe;
+  color: #333333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url("https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  overflow: hidden;
+  filter: brightness(0.9);
+}
+
+/* Styling for the calculator container */
+table {
+  border-collapse: separate;
+  border-spacing: 10px;
+  margin: 0 auto;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow effect */
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  padding: 30px;
+  backdrop-filter: blur(10px); /* Blurred background effect */
+  transition: box-shadow 0.4s ease-in-out, transform 0.4s ease, filter 0.4s ease; /* Smooth transition for all hover effects */
+}
+
+/* Enhanced glowing effect on hover */
+#calcu:hover {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.7); /* Glowing effect */
+  transform: scale(1.05); /* Slightly enlarge the calculator */
+  filter: brightness(1.2); /* Brighten the entire card on hover */
+}
+
+/* Styling the input field */
+input[type="text"] {
+  width: calc(100% - 100px);
+  height: 70px;
+  border: none;
+  outline: none;
+  padding: 15px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: right;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333333;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  margin-bottom: 15px;
+}
+
+/* Styling buttons */
+input[type="button"] {
+  width: 80px;
+  height: 60px;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #e0e0e0, #f9f9f9);
+  color: #333333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+input[type="button"]:hover {
+  background: linear-gradient(145deg, #ffffff, #e0e0e0);
+}
+
+input[type="button"]:active {
+  transform: scale(0.95); /* Slight button press effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific button styles for multiplication, division, addition, and subtraction */
+input[value="×"],
+input[value="÷"] {
+  background: linear-gradient(145deg, #ff9800, #f57c00); /* Orange color gradient */
+  color: white;
+}
+
+input[value="×"]:hover,
+input[value="÷"]:hover {
+  background: linear-gradient(145deg, #ffa726, #ff9800); /* Lighter orange on hover */
+}
+
+/* Specific button styles for other operations */
+input[value="+"] {
+  background: linear-gradient(145deg, #ff9800, #f57c00); /* Orange color gradient */
+  color: white;
+}
+
+input[value="+"]:hover {
+  background: linear-gradient(145deg, #ffa726, #ff9800); /* Lighter orange on hover */
+}
+
+input[value="-"] {
+  background: linear-gradient(145deg, #ff9800, #f57c00); /* Orange color gradient */
+  color: white;
+}
+
+input[value="-"]:hover {
+  background: linear-gradient(145deg, #ffa726, #ff9800); /* Lighter orange on hover */
+}
+
+/* Specific button styles */
+input[value="c"] {
+  background: linear-gradient(145deg, #ff6b6b, #ff4d4d);
+  color: white;
+}
+
+input[value="c"]:hover {
+  background: linear-gradient(145deg, #ff8b8b, #ff6b6b);
+}
+
+input[value="="] {
+  background: linear-gradient(145deg, #66bb6a, #4caf50);
+  color: white;
+}
+
+input[value="="]:hover {
+  background: linear-gradient(145deg, #81c784, #66bb6a);
+}
+
+/* Table alignment */
+td {
+  padding: 5px;
+}
+
+/* Additional styles for a polished look */
+td input {
+  border-radius: 10px;
+}
+
+#calcu {
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Shadow to create depth */
+  transition: box-shadow 0.4s ease-in-out, transform 0.4s ease, filter 0.4s ease; /* Smooth transition */
+}
