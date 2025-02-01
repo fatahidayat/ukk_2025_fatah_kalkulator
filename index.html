@@ -51,18 +51,24 @@
           this.input = "";
         }
 
-        // Display input on the screen
+        // Display input on the screen with thousand separator
         display(val) {
           this.input += val;
-          this.resultField.value = this.input;
+
+          // Automatically format the input with thousand separators
+          let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+          this.resultField.value = formattedInput; // Show the formatted number
         }
 
-        // Evaluate the expression
+        // Evaluate the expression and format result with thousand separators
         solve() {
           try {
             // Evaluate the expression and store the result
             let result = math.evaluate(this.input);
-            this.resultField.value = result;
+
+            // Format the result with thousand separators (using toLocaleString)
+            this.resultField.value = result.toLocaleString("id-ID"); // Use 'en-US' for comma
+
             this.input = result.toString(); // store result for further calculation
           } catch (error) {
             this.resultField.value = "Error";
