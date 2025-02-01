@@ -37,7 +37,8 @@
         <td><input type="button" value="-" onclick="calculator.display('-')" /></td>
       </tr>
       <tr>
-        <td><input type="button" value="." onclick="calculator.display('.')" /></td>
+        <!-- Changed the dot button to a decimal (comma) button -->
+        <td><input type="button" value="," onclick="calculator.displayDecimal()" /></td>
         <td><input type="button" value="0" onclick="calculator.display('0')" /></td>
         <td><input type="button" value="=" onclick="calculator.solve()" /></td>
         <td><input type="button" value="+" onclick="calculator.display('+')" /></td>
@@ -49,6 +50,7 @@
         constructor() {
           this.resultField = document.getElementById("result");
           this.input = "";
+          this.hasDecimal = false; // Track whether a decimal is already used
         }
 
         // Display input on the screen with thousand separator
@@ -60,16 +62,30 @@
           this.resultField.value = formattedInput; // Show the formatted number
         }
 
+        // Handle decimal input
+        displayDecimal() {
+          // Allow decimal input only if there isn't one already
+          if (!this.hasDecimal) {
+            this.input += ",";
+            this.resultField.value = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Show formatted with comma as decimal
+            this.hasDecimal = true; // Mark that decimal is already used
+          }
+        }
+
         // Evaluate the expression and format result with thousand separators
         solve() {
           try {
+            // Replace the comma with dot for calculation
+            let calcInput = this.input.replace(/,/g, ".");
+
             // Evaluate the expression and store the result
-            let result = math.evaluate(this.input);
+            let result = math.evaluate(calcInput);
 
             // Format the result with thousand separators (using toLocaleString)
             this.resultField.value = result.toLocaleString("id-ID"); // Use 'en-US' for comma
 
             this.input = result.toString(); // store result for further calculation
+            this.hasDecimal = false; // Reset the decimal flag
           } catch (error) {
             this.resultField.value = "Error";
           }
@@ -79,11 +95,12 @@
         clear() {
           this.input = "";
           this.resultField.value = "";
+          this.hasDecimal = false;
         }
 
         // Handle keydown events for numeric input
         handleKeyPress(event) {
-          const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", "."];
+          const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", ","];
           if (validKeys.includes(event.key)) {
             this.display(event.key);
           } else if (event.key === "Enter") {
