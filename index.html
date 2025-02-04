@@ -20,14 +20,12 @@
         <td><input type="button" value="7" onclick="calculator.display('7')" /></td>
         <td><input type="button" value="8" onclick="calculator.display('8')" /></td>
         <td><input type="button" value="9" onclick="calculator.display('9')" /></td>
-        <!-- Updated the division button to display ÷ -->
         <td><input type="button" value="÷" onclick="calculator.display('/')" /></td>
       </tr>
       <tr>
         <td><input type="button" value="4" onclick="calculator.display('4')" /></td>
         <td><input type="button" value="5" onclick="calculator.display('5')" /></td>
         <td><input type="button" value="6" onclick="calculator.display('6')" /></td>
-        <!-- Updated the multiplication button to display × -->
         <td><input type="button" value="×" onclick="calculator.display('*')" /></td>
       </tr>
       <tr>
@@ -37,7 +35,6 @@
         <td><input type="button" value="-" onclick="calculator.display('-')" /></td>
       </tr>
       <tr>
-        <!-- Changed the dot button to a decimal (comma) button -->
         <td><input type="button" value="," onclick="calculator.displayDecimal()" /></td>
         <td><input type="button" value="0" onclick="calculator.display('0')" /></td>
         <td><input type="button" value="=" onclick="calculator.solve()" /></td>
@@ -50,42 +47,72 @@
         constructor() {
           this.resultField = document.getElementById("result");
           this.input = "";
-          this.hasDecimal = false; // Track whether a decimal is already used
+          this.hasDecimal = false;
+          this.isFirstInput = true;
         }
 
         // Display input on the screen with thousand separator
         display(val) {
-          this.input += val;
+          // Handle minus for negative number or operator
+          if (val === "-" && this.isFirstInput) {
+            // Allow minus as negative sign if it's the first input
+            this.input += val;
+            this.isFirstInput = false; // After the first input, allow further inputs
+            let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            this.resultField.value = formattedInput;
+            return;
+          }
 
-          // Automatically format the input with thousand separators
+          // Prevent entering operator as the first input (after minus used as negative sign)
+          if (this.isFirstInput && ["+", "*", "/"].includes(val)) {
+            return; // Don't allow operator as first input except minus
+          }
+
+          // Prevent multiple consecutive operators
+          const lastChar = this.input[this.input.length - 1];
+          if (["+", "-", "*", "/"].includes(lastChar) && ["+", "-", "*", "/"].includes(val)) {
+            return; // Ignore consecutive operators
+          }
+
+          this.input += val;
+          this.isFirstInput = false; // After the first input, allow further inputs
+
           let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-          this.resultField.value = formattedInput; // Show the formatted number
+          this.resultField.value = formattedInput;
         }
 
         // Handle decimal input
         displayDecimal() {
-          // Allow decimal input only if there isn't one already
-          if (!this.hasDecimal) {
+          if (!this.hasDecimal && this.input.length > 0) {
             this.input += ",";
-            this.resultField.value = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Show formatted with comma as decimal
-            this.hasDecimal = true; // Mark that decimal is already used
+            this.resultField.value = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            this.hasDecimal = true;
           }
         }
 
         // Evaluate the expression and format result with thousand separators
         solve() {
           try {
-            // Replace the comma with dot for calculation
-            let calcInput = this.input.replace(/,/g, ".");
+            // Remove any operator at the end of the input
+            let calcInput = this.input.replace(/,$/, ""); // Remove comma (decimal point)
+            calcInput = calcInput.replace(/[\+\-\*\/]$/, ""); // Remove trailing operator
 
-            // Evaluate the expression and store the result
+            // Replace commas with dots for calculation
+            calcInput = calcInput.replace(/,/g, ".");
+
+            // Perform calculation
             let result = math.evaluate(calcInput);
 
-            // Format the result with thousand separators (using toLocaleString)
-            this.resultField.value = result.toLocaleString("id-ID"); // Use 'en-US' for comma
+            // Format the result with thousand separators (ID format)
+            this.resultField.value = result.toLocaleString("id-ID");
 
-            this.input = result.toString(); // store result for further calculation
-            this.hasDecimal = false; // Reset the decimal flag
+            // Update the input with the result, allowing continuation
+            this.input = result.toString();
+            this.hasDecimal = false;
+            this.isFirstInput = true;
+
+            // Allow operator to be entered after the result
+            this.isFirstInput = false;
           } catch (error) {
             this.resultField.value = "Error";
           }
@@ -96,6 +123,7 @@
           this.input = "";
           this.resultField.value = "";
           this.hasDecimal = false;
+          this.isFirstInput = true;
         }
 
         // Handle keydown events for numeric input
