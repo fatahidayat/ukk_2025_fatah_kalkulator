@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
   <head>
     <title>JavaScript Calculator</title>
@@ -51,37 +51,31 @@
           this.isFirstInput = true;
         }
 
-        // Display input on the screen with thousand separator
         display(val) {
-          // Handle minus for negative number or operator
           if (val === "-" && this.isFirstInput) {
-            // Allow minus as negative sign if it's the first input
             this.input += val;
-            this.isFirstInput = false; // After the first input, allow further inputs
+            this.isFirstInput = false;
             let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
             this.resultField.value = formattedInput;
             return;
           }
 
-          // Prevent entering operator as the first input (after minus used as negative sign)
           if (this.isFirstInput && ["+", "*", "/"].includes(val)) {
-            return; // Don't allow operator as first input except minus
+            return;
           }
 
-          // Prevent multiple consecutive operators
           const lastChar = this.input[this.input.length - 1];
           if (["+", "-", "*", "/"].includes(lastChar) && ["+", "-", "*", "/"].includes(val)) {
-            return; // Ignore consecutive operators
+            return;
           }
 
           this.input += val;
-          this.isFirstInput = false; // After the first input, allow further inputs
+          this.isFirstInput = false;
 
           let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
           this.resultField.value = formattedInput;
         }
 
-        // Handle decimal input
         displayDecimal() {
           if (!this.hasDecimal && this.input.length > 0) {
             this.input += ",";
@@ -90,35 +84,27 @@
           }
         }
 
-        // Evaluate the expression and format result with thousand separators
         solve() {
           try {
-            // Remove any operator at the end of the input
-            let calcInput = this.input.replace(/,$/, ""); // Remove comma (decimal point)
-            calcInput = calcInput.replace(/[\+\-\*\/]$/, ""); // Remove trailing operator
+            let calcInput = this.input.replace(/,$/, "");
+            calcInput = calcInput.replace(/[\+\-\*\/]$/, "");
 
-            // Replace commas with dots for calculation
             calcInput = calcInput.replace(/,/g, ".");
 
-            // Perform calculation
             let result = math.evaluate(calcInput);
 
-            // Format the result with thousand separators (ID format)
             this.resultField.value = result.toLocaleString("id-ID");
 
-            // Update the input with the result, allowing continuation
             this.input = result.toString();
             this.hasDecimal = false;
             this.isFirstInput = true;
 
-            // Allow operator to be entered after the result
             this.isFirstInput = false;
           } catch (error) {
             this.resultField.value = "Error";
           }
         }
 
-        // Clear the display 
         clear() {
           this.input = "";
           this.resultField.value = "";
@@ -126,7 +112,6 @@
           this.isFirstInput = true;
         }
 
-        // Handle keydown events for numeric input
         handleKeyPress(event) {
           const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", ","];
           if (validKeys.includes(event.key)) {
@@ -137,10 +122,8 @@
         }
       }
 
-      // Instantiate a calculator object
       const calculator = new Calculator();
 
-      // Event listener for keydown
       document.addEventListener("keydown", function (event) {
         calculator.handleKeyPress(event);
       });
