@@ -34,8 +34,9 @@ table {
 }
 
 input[type="text"] {
-  width: calc(100% - 100px);
-  height: 70px;
+  width: 100%;
+  max-width: none;
+  height: 100px;
   border: none;
   outline: none;
   padding: 15px;
@@ -47,6 +48,16 @@ input[type="text"] {
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
+  box-sizing: border-box;
+}
+#fathcalcu {
+  font-family: "Fabric", sans-serif;
+  font-size: 50px;
+  font-weight: bold;
+  display: inline-block;
+  padding: 8px 12px;
+  text-align: center;
+  font-family: "Oswald", sans-serif;
 }
 
 input[type="button"] {
@@ -102,13 +113,21 @@ input[value="-"]:hover {
   background: linear-gradient(145deg, #ffa726, #ff9800);
 }
 
-input[value="c"] {
+input[value="C"] {
   background: linear-gradient(145deg, #ff6b6b, #ff4d4d);
   color: white;
 }
 
-input[value="c"]:hover {
+input[value="C"]:hover {
   background: linear-gradient(145deg, #ff8b8b, #ff6b6b);
+}
+input[value="←"] {
+  background: linear-gradient(145deg, #ff9800, #f57c00);
+  color: white;
+}
+
+input[value="←"]:hover {
+  background: linear-gradient(145deg, #ffa726, #ff9800);
 }
 
 input[value="="] {
