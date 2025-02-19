@@ -2,20 +2,29 @@
 <html>
   <head>
     <title>JavaScript Calculator</title>
+    <!-- Menyertakan pustaka mathjs untuk perhitungan matematika -->
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
       integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <!-- Menyertakan file CSS untuk desain tampilan (jika ada) -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Membuat tabel untuk tampilan kalkulator -->
     <table id="calcu">
       <tr>
-        <td colspan="3"><input type="text" id="result" /></td>
+        <!-- Kolom untuk menampilkan hasil perhitungan (readonly agar tidak bisa diklik atau diedit) -->
+        <td colspan="3">
+          <input type="text" id="result" readonly />
+          <!-- Menambahkan atribut readonly -->
+        </td>
+        <!-- Tombol untuk menghapus hasil kalkulasi (clear) -->
         <td><input type="button" value="c" onclick="calculator.clear()" /></td>
       </tr>
+      <!-- Baris tombol angka dan operator -->
       <tr>
         <td><input type="button" value="7" onclick="calculator.display('7')" /></td>
         <td><input type="button" value="8" onclick="calculator.display('8')" /></td>
@@ -43,15 +52,19 @@
     </table>
 
     <script>
+      // Membuat kelas untuk kalkulator
       class Calculator {
         constructor() {
+          // Menyimpan elemen input untuk hasil
           this.resultField = document.getElementById("result");
-          this.input = "";
-          this.hasDecimal = false;
-          this.isFirstInput = true;
+          this.input = ""; // Menyimpan input angka dan operator
+          this.hasDecimal = false; // Mengecek apakah sudah ada tanda koma (desimal)
+          this.isFirstInput = true; // Mengecek apakah ini input pertama
         }
 
+        // Fungsi untuk menampilkan angka atau operator pada kalkulator
         display(val) {
+          // Jika input pertama adalah tanda minus, tambahkan dan format
           if (val === "-" && this.isFirstInput) {
             this.input += val;
             this.isFirstInput = false;
@@ -60,23 +73,29 @@
             return;
           }
 
+          // Menghindari input operator pertama jika belum ada angka
           if (this.isFirstInput && ["+", "*", "/"].includes(val)) {
             return;
           }
 
+          // Cek karakter terakhir, jika operator, tidak boleh ditambah operator lagi
           const lastChar = this.input[this.input.length - 1];
           if (["+", "-", "*", "/"].includes(lastChar) && ["+", "-", "*", "/"].includes(val)) {
             return;
           }
 
+          // Menambahkan angka atau operator ke input
           this.input += val;
           this.isFirstInput = false;
 
+          // Menampilkan input dengan format ribuan (contoh: 1.000)
           let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
           this.resultField.value = formattedInput;
         }
 
+        // Fungsi untuk menambahkan tanda koma desimal
         displayDecimal() {
+          // Pastikan koma hanya bisa ditambahkan sekali
           if (!this.hasDecimal && this.input.length > 0) {
             this.input += ",";
             this.resultField.value = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -84,27 +103,33 @@
           }
         }
 
+        // Fungsi untuk menghitung hasil perhitungan
         solve() {
           try {
+            // Menghapus koma di akhir dan memformat input untuk evaluasi
             let calcInput = this.input.replace(/,$/, "");
             calcInput = calcInput.replace(/[\+\-\*\/]$/, "");
+            calcInput = calcInput.replace(/,/g, "."); // Mengganti koma dengan titik untuk perhitungan
 
-            calcInput = calcInput.replace(/,/g, ".");
-
+            // Menghitung hasil menggunakan math.js
             let result = math.evaluate(calcInput);
 
+            // Menampilkan hasil dengan format ribuan
             this.resultField.value = result.toLocaleString("id-ID");
 
+            // Menyimpan hasil untuk digunakan di input berikutnya
             this.input = result.toString();
             this.hasDecimal = false;
             this.isFirstInput = true;
 
             this.isFirstInput = false;
           } catch (error) {
+            // Jika ada error, tampilkan "Error" pada layar
             this.resultField.value = "Error";
           }
         }
 
+        // Fungsi untuk membersihkan input dan hasil kalkulasi
         clear() {
           this.input = "";
           this.resultField.value = "";
@@ -112,18 +137,23 @@
           this.isFirstInput = true;
         }
 
+        // Fungsi untuk menangani penekanan tombol keyboard
         handleKeyPress(event) {
           const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", ","];
+
+          // Cek apakah tombol yang ditekan valid
           if (validKeys.includes(event.key)) {
-            this.display(event.key);
+            this.display(event.key); // Menampilkan karakter yang ditekan
           } else if (event.key === "Enter") {
-            this.solve();
+            this.solve(); // Menyelesaikan perhitungan saat tombol Enter ditekan
           }
         }
       }
 
+      // Membuat instance kalkulator
       const calculator = new Calculator();
 
+      // Menambahkan event listener untuk menangani input dari keyboard
       document.addEventListener("keydown", function (event) {
         calculator.handleKeyPress(event);
       });

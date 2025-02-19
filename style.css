@@ -19,21 +19,19 @@ table {
   border-collapse: separate;
   border-spacing: 10px;
   margin: 0 auto;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.8); 
+  background: rgba(255, 255, 255, 0.8);
   padding: 30px;
   backdrop-filter: blur(10px);
   transition: box-shadow 0.4s ease-in-out, transform 0.4s ease, filter 0.4s ease;
 }
 
-
 #calcu:hover {
-  box-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.7); 
-  transform: scale(1.05); 
+  box-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.7);
+  transform: scale(1.05);
   filter: brightness(1.2);
 }
-
 
 input[type="text"] {
   width: calc(100% - 100px);
@@ -47,10 +45,9 @@ input[type="text"] {
   background-color: rgba(255, 255, 255, 0.9);
   color: #333333;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 15px;
 }
-
 
 input[type="button"] {
   width: 80px;
@@ -72,10 +69,9 @@ input[type="button"]:hover {
 }
 
 input[type="button"]:active {
-  transform: scale(0.95); 
+  transform: scale(0.95);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
 
 input[value="×"],
 input[value="÷"] {
@@ -85,28 +81,26 @@ input[value="÷"] {
 
 input[value="×"]:hover,
 input[value="÷"]:hover {
-  background: linear-gradient(145deg, #ffa726, #ff9800); 
+  background: linear-gradient(145deg, #ffa726, #ff9800);
 }
 
-
 input[value="+"] {
-  background: linear-gradient(145deg, #ff9800, #f57c00); 
+  background: linear-gradient(145deg, #ff9800, #f57c00);
   color: white;
 }
 
 input[value="+"]:hover {
-  background: linear-gradient(145deg, #ffa726, #ff9800); 
+  background: linear-gradient(145deg, #ffa726, #ff9800);
 }
 
 input[value="-"] {
-  background: linear-gradient(145deg, #ff9800, #f57c00); 
+  background: linear-gradient(145deg, #ff9800, #f57c00);
   color: white;
 }
 
 input[value="-"]:hover {
   background: linear-gradient(145deg, #ffa726, #ff9800);
 }
-
 
 input[value="c"] {
   background: linear-gradient(145deg, #ff6b6b, #ff4d4d);
@@ -126,11 +120,9 @@ input[value="="]:hover {
   background: linear-gradient(145deg, #81c784, #66bb6a);
 }
 
-
 td {
   padding: 5px;
 }
-
 
 td input {
   border-radius: 10px;
@@ -141,6 +133,6 @@ td input {
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
-  transition: box-shadow 0.4s ease-in-out, transform 0.4s ease, filter 0.4s ease; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.4s ease-in-out, transform 0.4s ease, filter 0.4s ease;
 }
