@@ -12,23 +12,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <!-- Struktur tabel untuk menampilkan kalkulator -->
     <table id="calcu">
       <tr>
         <td colspan="4">
+          <!-- Kolom untuk menampilkan hasil -->
           <input type="text" id="result" readonly />
         </td>
       </tr>
 
       <tr>
-        <td colspan="2">
-          <span id="fathcalcu">FathCalcu</span>
+        <td colspan="1">
+          <!-- Nama kalkulator -->
+          <span id="fathcalcu">FaC</span>
         </td>
-
+        <td><input type="button" value="%" onclick="calculator.persen()" id="persen-btn" /></td>
         <td><input type="button" value="←" onclick="calculator.backspace()" id="backspace-btn" /></td>
 
         <td><input type="button" value="C" onclick="calculator.clear()" id="clear-btn" /></td>
       </tr>
-
+      <!-- Baris angka dan operasi matematika -->
       <tr>
         <td><input type="button" value="7" onclick="calculator.display('7')" /></td>
         <td><input type="button" value="8" onclick="calculator.display('8')" /></td>
@@ -56,18 +59,18 @@
     </table>
 
     <script>
+      // Membuat kelas kalkulator yang mengatur logika perhitungan
       class Calculator {
         constructor() {
           this.resultField = document.getElementById("result");
           this.input = "";
           this.hasDecimal = false;
           this.isFirstInput = true;
-          this.input = "";
-          this.hasDecimal = false;
-          this.isFirstInput = true;
         }
 
+        // Fungsi untuk menampilkan angka atau operator pada kalkulator
         display(val) {
+          // Jika input pertama dan operator minus, izinkan
           if (val === "-" && this.isFirstInput) {
             this.input += val;
             this.isFirstInput = false;
@@ -76,10 +79,12 @@
             return;
           }
 
+          // Tidak mengizinkan operator pertama kali
           if (this.isFirstInput && ["+", "*", "/"].includes(val)) {
             return;
           }
 
+          // Menghindari dua operator berturut-turut
           const lastChar = this.input[this.input.length - 1];
           if (["+", "-", "*", "/"].includes(lastChar) && ["+", "-", "*", "/"].includes(val)) {
             return;
@@ -88,10 +93,12 @@
           this.input += val;
           this.isFirstInput = false;
 
+          // Format angka dengan titik setiap ribuan
           let formattedInput = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
           this.resultField.value = formattedInput;
         }
 
+        // Fungsi untuk menambahkan koma (desimal) jika belum ada
         displayDecimal() {
           if (!this.hasDecimal && this.input.length > 0) {
             this.input += ",";
@@ -100,28 +107,35 @@
           }
         }
 
+        // Fungsi untuk menghitung hasil dari input yang ada
         solve() {
           try {
             let calcInput = this.input.replace(/,$/, "");
             calcInput = calcInput.replace(/[\+\-\*\/]$/, "");
             calcInput = calcInput.replace(/,/g, ".");
 
-            calcInput = calcInput.replace(/,/g, ".");
+            // Mengganti pola "angka - persen" dengan operasi diskon
+            calcInput = calcInput.replace(/(\d+(\.\d+)?)\s*-\s*(\d+(\.\d+)?)%/g, (match, p1, p2, p3) => {
+              return `${p1} * (1 - ${p3} * 0.01)`;
+            });
 
+            // Evaluasi ekspresi menggunakan MathJS
             let result = math.evaluate(calcInput);
 
+            // Menampilkan hasil dengan format lokal
             this.resultField.value = result.toLocaleString("id-ID");
 
+            // Menyimpan hasil untuk input berikutnya
             this.input = result.toString();
             this.hasDecimal = false;
             this.isFirstInput = true;
-
-            this.isFirstInput = false;
           } catch (error) {
+            // Jika ada kesalahan dalam perhitungan, tampilkan error
             this.resultField.value = "Error";
           }
         }
 
+        // Fungsi untuk membersihkan input dan hasil
         clear() {
           this.input = "";
           this.resultField.value = "";
@@ -129,6 +143,7 @@
           this.isFirstInput = true;
         }
 
+        // Fungsi untuk menghapus karakter terakhir dari input
         backspace() {
           if (this.input.length > 0) {
             this.input = this.input.slice(0, -1);
@@ -136,6 +151,15 @@
           }
         }
 
+        // Fungsi untuk menangani persen
+        persen() {
+          if (this.input.length > 0 && !this.input.endsWith("%")) {
+            this.input += "%";
+            this.resultField.value = this.input.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+          }
+        }
+
+        // Fungsi untuk menangani input tombol keyboard
         handleKeyPress(event) {
           const validKeys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/", ","];
           if (validKeys.includes(event.key)) {
@@ -146,12 +170,14 @@
             this.backspace();
           } else if (event.key === "Delete") {
             this.clear();
+          } else if (event.key === "%") {
+            this.persen();
           }
         }
       }
-
+      // Membuat instance kalkulator
       const calculator = new Calculator();
-
+      // Menambahkan event listener untuk mendeteksi input tombol dari keyboard
       document.addEventListener("keydown", function (event) {
         calculator.handleKeyPress(event);
       });

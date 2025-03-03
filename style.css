@@ -27,12 +27,6 @@ table {
   transition: box-shadow 0.4s ease-in-out, transform 0.4s ease, filter 0.4s ease;
 }
 
-#calcu:hover {
-  box-shadow: 0 0 30px rgba(255, 255, 255, 1), 0 0 50px rgba(255, 255, 255, 0.7);
-  transform: scale(1.05);
-  filter: brightness(1.2);
-}
-
 input[type="text"] {
   width: 100%;
   max-width: none;
@@ -71,6 +65,37 @@ input[type="button"] {
   border-radius: 12px;
   background: linear-gradient(145deg, #e0e0e0, #f9f9f9);
   color: #333333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+input[type="button2"] {
+  width: 80px;
+  height: 60px;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  justify-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #e0e0e0, #f9f9f9);
+  color: #333333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+input[type="button1"] {
+  width: 80px;
+  height: 60px;
+  border: none;
+  outline: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  justify-items: center;
+  border-radius: 50%;
+  background: linear-gradient(145deg, blue, blue);
+  color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
@@ -127,6 +152,14 @@ input[value="←"] {
 }
 
 input[value="←"]:hover {
+  background: linear-gradient(145deg, #ffa726, #ff9800);
+}
+input[value="%"] {
+  background: linear-gradient(145deg, #ff9800, #f57c00);
+  color: white;
+}
+
+input[value="%"]:hover {
   background: linear-gradient(145deg, #ffa726, #ff9800);
 }
 
